@@ -48,8 +48,8 @@ vim.opt.swapfile = false
 -- TPope extention defaults to 8, so set tabs to 4
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-
-
+-- Set UI language to default English instead of Russian
+vim.opt.langmenu = ""
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
