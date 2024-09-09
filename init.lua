@@ -122,14 +122,10 @@ end)
 vim.cmd.language 'en_US'
 vim.o.langmenu = ''
 
--- For neovide disable cursor animations
+-- For neovide disable cursor animations, add mac copy-paste, default to home
 if vim.g.neovide then
-  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
-  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
-  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
-  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
-  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
-  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+  local default_path = vim.fn.expand '~'
+  vim.api.nvim_set_current_dir(default_path)
   vim.o.mouse = ''
   vim.opt.guifont = { 'JetbrainsMono_Nerd_Font', ':h20' }
   vim.g.neovide_cursor_vfx_mode = ''
@@ -140,6 +136,17 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animate_command_line = false
   vim.g.neovide_scroll_animation_far_lines = 0
   vim.g.neovide_scroll_animation_length = 0.00
+  -- add copypaste with cmd on macos
+  if vim.fn.has 'macunix' then
+    vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
+    vim.keymap.set('v', '<D-c>', '"+y') -- Copy
+    vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
+    vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
+    vim.keymap.set('t', '<D-v>', '<C-\\><C-N>p') -- Paste terminal mode
+    vim.keymap.set('t', '<D-c>', 'y') -- Copy terminal mode
+    vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
+    vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+  end
 end
 
 -- Enable break indent
