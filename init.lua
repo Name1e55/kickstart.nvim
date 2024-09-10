@@ -1,5 +1,7 @@
 --[[
 
+TODO: add buffer delete  for telescope
+
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -118,16 +120,12 @@ vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
 
--- Change menu language to English
-vim.cmd.language 'en_US'
-vim.o.langmenu = ''
-
 -- For neovide disable cursor animations, add mac copy-paste, default to home
 if vim.g.neovide then
   local default_path = vim.fn.expand '~'
   vim.api.nvim_set_current_dir(default_path)
-  vim.o.mouse = ''
-  vim.opt.guifont = { 'JetbrainsMono_Nerd_Font', ':h20' }
+  --vim.o.mouse = ''
+  vim.opt.guifont = { 'JetbrainsMono_Nerd_Font', ':h16' }
   vim.g.neovide_cursor_vfx_mode = ''
   vim.g.neovide_position_animation_length = 0
   vim.g.neovide_cursor_animation_length = 0.00
@@ -136,8 +134,11 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animate_command_line = false
   vim.g.neovide_scroll_animation_far_lines = 0
   vim.g.neovide_scroll_animation_length = 0.00
-  -- add copypaste with cmd on macos
+  -- add copypaste with cmd and language for macos
   if vim.fn.has 'macunix' then
+    -- Change menu language to English
+    vim.cmd.language 'en_US'
+    vim.o.langmenu = ''
     vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
     vim.keymap.set('v', '<D-c>', '"+y') -- Copy
     vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
@@ -262,6 +263,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- TODO: Put here all tab and shift stuff from above
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
@@ -783,7 +785,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<C-Space>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -794,7 +796,7 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          --['<C-Space>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
